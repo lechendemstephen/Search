@@ -12,14 +12,47 @@
             <div class="col-md-8">
                 <div class="col-md-8">
                     <div class="input-group">
-                    <form class="form-group" action="{% url 'search' %}" method="POST">
-                        {% csrf_token %}
-                        <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" name='search_query' />
-                        <button type="submit" class="btn btn-outline-primary" data-mdb-ripple-init>search</button>
-                    </div>
+
+                        {% include "todo/pages/search.html" %}
+                
             </div>
         </div>
         <br>
+
+        {% comment %} start if search query found  {% endcomment %}
+
+    {% if query %}
+        <div class="row ">
+            <table class="table table-dark">
+               
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">First</th>
+                    <th scope="col">Last</th>
+                    <th scope="col">Enrolled Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                        {% for result in results %} 
+                                   <tr> 
+                                    {% if result != None %}
+                                        <th scope="row">{{ result.id }}</th>
+                                        <td>{{ result.first_name }}</td>
+                                        <td>{{ result.last_name }}</td>
+                                        <td>{{ result.enrolled_date }}</td>
+                                    {% else %}
+                                           <h3> No search result </h3>
+                                    {% endif %}
+                                   </t>
+                        {% endfor %}      
+                </tbody>
+              </table>
+
+        </div>
+      </div>
+    {% else %}
+  {% comment %} end of the if search query available  {% endcomment %}
         <div class="row ">
                 <table class="table table-dark">
                    
@@ -32,12 +65,12 @@
                       </tr>
                     </thead>
                     <tbody>
-                      {% for result in results %}
+                      {% for student in students %}
                       <tr>
-                        <th scope="row">{{ result.id }}</th>
-                        <td>{{ result.first_name }}</td>
-                        <td>{{ result.last_name }}</td>
-                        <td>{{ result.enrolled_date }}</td>
+                        <th scope="row">{{ student.id }}</th>
+                        <td>{{ student.first_name }}</td>
+                        <td>{{ student.last_name }}</td>
+                        <td>{{ student.enrolled_date }}</td>
                       </tr>
 
                       {% endfor %}
@@ -45,7 +78,7 @@
                     </tbody>
                   </table>
                 
-
+                  {% endif %}
 
             </div>
         </div>
